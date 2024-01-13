@@ -12,7 +12,6 @@ import (
 	bls "github.com/dashpay/bls-signatures/go-bindings"
 
 	"github.com/dashpay/tenderdash/crypto"
-	"github.com/dashpay/tenderdash/internal/jsontypes"
 	tmbytes "github.com/dashpay/tenderdash/libs/bytes"
 )
 
@@ -48,11 +47,6 @@ var (
 
 	schema = bls.NewBasicSchemeMPL()
 )
-
-func init() {
-	jsontypes.MustRegister(PubKey{})
-	jsontypes.MustRegister(PrivKey{})
-}
 
 // BasicScheme returns basic bls scheme
 func BasicScheme() *bls.BasicSchemeMPL {

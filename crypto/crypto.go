@@ -9,7 +9,6 @@ import (
 
 	"github.com/dashpay/dashd-go/btcjson"
 
-	"github.com/dashpay/tenderdash/internal/jsontypes"
 	tmbytes "github.com/dashpay/tenderdash/libs/bytes"
 )
 
@@ -127,41 +126,6 @@ type quorumKeysJSON struct {
 	ThresholdPublicKey json.RawMessage `json:"threshold_public_key"`
 }
 
-func (pvKey QuorumKeys) MarshalJSON() ([]byte, error) {
-	var keys quorumKeysJSON
-	var err error
-	keys.PrivKey, err = jsontypes.Marshal(pvKey.PrivKey)
-	if err != nil {
-		return nil, err
-	}
-	keys.PubKey, err = jsontypes.Marshal(pvKey.PubKey)
-	if err != nil {
-		return nil, err
-	}
-	keys.ThresholdPublicKey, err = jsontypes.Marshal(pvKey.ThresholdPublicKey)
-	if err != nil {
-		return nil, err
-	}
-	return json.Marshal(keys)
-}
-
-func (pvKey *QuorumKeys) UnmarshalJSON(data []byte) error {
-	var keys quorumKeysJSON
-	err := json.Unmarshal(data, &keys)
-	if err != nil {
-		return err
-	}
-	err = jsontypes.Unmarshal(keys.PrivKey, &pvKey.PrivKey)
-	if err != nil {
-		return err
-	}
-	err = jsontypes.Unmarshal(keys.PubKey, &pvKey.PubKey)
-	if err != nil {
-		return err
-	}
-	return jsontypes.Unmarshal(keys.ThresholdPublicKey, &pvKey.ThresholdPublicKey)
-}
-
 // Validator is a validator interface
 type Validator interface {
 	Validate() error
@@ -175,8 +139,6 @@ type PubKey interface {
 	Equals(PubKey) bool
 	Type() string
 
-	// Implementations must support tagged encoding in JSON.
-	jsontypes.Tagged
 	fmt.Stringer
 	HexStringer
 }
@@ -188,9 +150,6 @@ type PrivKey interface {
 	PubKey() PubKey
 	Equals(PrivKey) bool
 	Type() string
-
-	// Implementations must support tagged encoding in JSON.
-	jsontypes.Tagged
 }
 
 type Symmetric interface {
