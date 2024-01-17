@@ -20,6 +20,11 @@ sudo cp -R \
     ./third_party/bls-signatures/src/depends/relic/include \
     /usr/local/include/relic
 
+sudo cp -R \
+    ./third_party/bls-signatures/build/depends/relic/include/relic_conf.h \
+    ./third_party/bls-signatures/src/depends/relic/include/*.h \
+    /usr/local/include/dashbls/
+
 go test -count 1 ./crypto/bls12381/
 ```
 
