@@ -102,7 +102,7 @@ install: install-bls
 
 .PHONY: all
 
-include test/Makefile
+#include test/Makefile
 
 ###############################################################################
 ###                      Build/Install BLS library                          ###
